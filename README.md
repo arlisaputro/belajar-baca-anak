@@ -39,6 +39,18 @@ Tampilan menyesuaikan di desktop, tablet, maupun handphone.
 
 Instagram: [@bitarbas_gaming](https://instagram.com/bitarbas_gaming)
 
+## 📦 Generate APK (Android)
+
+Project ini sudah PWA-ready. Untuk generate APK:
+
+1. Pastikan GitHub Pages sudah aktif di `https://arlisaputro.github.io/belajar-baca-anak/`
+2. Buka [PWA Builder](https://www.pwabuilder.com)
+3. Masukkan URL: `https://arlisaputro.github.io/belajar-baca-anak/`
+4. Klik **Start** → pilih **Android** → **Generate Package**
+5. Download APK, install di HP Android ✅
+
+> 💡 Tanpa perlu install Android Studio, Java, atau SDK apapun!
+
 ## 📄 Lisensi
 
 Bebas digunakan untuk keperluan edukasi.
