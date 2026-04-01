@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎓 Belajar Membaca - Anak TK</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#764ba2">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Comic Sans MS', 'Chalkboard SE', cursive; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
@@ -133,6 +138,8 @@
 </footer>
 
 <script>
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
 const HURUF = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const KONSONAN = ['B','C','D','F','G','H','J','K','L','M','N','P','R','S','T','W','Y'];
 const VOKAL = ['a','i','u','e','o'];
