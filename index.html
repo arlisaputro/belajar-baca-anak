@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 Belajar Membaca - Anak TK</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Comic Sans MS', 'Chalkboard SE', cursive; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+
+  nav { background: rgba(255,255,255,0.95); padding: 10px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+  nav button { padding: 10px 20px; border: 3px solid #764ba2; border-radius: 50px; background: white; color: #764ba2; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+  nav button:hover, nav button.active { background: #764ba2; color: white; transform: scale(1.05); }
+
+  .page { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+  h1 { text-align: center; color: white; font-size: 2rem; margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+  h2 { text-align: center; color: white; margin-bottom: 20px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+  .card { background: white; border-radius: 16px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); user-select: none; }
+  .card:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .card:active { transform: scale(0.95); }
+  .card .big { font-size: 2.5rem; font-weight: bold; color: #764ba2; }
+  .card .small { font-size: 0.85rem; color: #666; margin-top: 4px; }
+
+  .suku-section { margin-bottom: 25px; }
+  .suku-section h3 { color: #ffd700; font-size: 1.3rem; margin-bottom: 10px; text-align: center; }
+  .suku-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .suku-card { background: white; border-radius: 14px; padding: 18px 10px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .suku-card:hover { transform: translateY(-4px) scale(1.05); }
+  .suku-card:active { transform: scale(0.95); }
+  .suku-card .big { font-size: 2rem; font-weight: bold; color: #e74c3c; }
+
+  /* Suku Kata Menu */
+  .konsonan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; }
+  .konsonan-card { background: white; border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .konsonan-card:hover { transform: translateY(-5px) scale(1.08); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .konsonan-card:active { transform: scale(0.95); }
+  .konsonan-card .big { font-size: 2.5rem; font-weight: bold; }
+  .konsonan-card .small { font-size: 0.8rem; color: #666; margin-top: 4px; }
+  .back-btn { display: inline-block; padding: 10px 24px; border: none; border-radius: 50px; background: rgba(255,255,255,0.9); color: #764ba2; font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer; margin-bottom: 15px; transition: all 0.3s; }
+  .back-btn:hover { background: white; transform: scale(1.05); }
+  .detail-title { text-align: center; color: #ffd700; font-size: 2.5rem; margin-bottom: 5px; }
+  .detail-sub { text-align: center; color: rgba(255,255,255,0.8); margin-bottom: 20px; font-size: 1rem; }
+  .combo-section { background: rgba(255,255,255,0.1); border-radius: 16px; padding: 15px; margin-bottom: 15px; }
+  .combo-section h4 { color: #ffd700; font-size: 1.1rem; margin-bottom: 10px; text-align: center; }
+  .combo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .combo-card { background: white; border-radius: 12px; padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+  .combo-card:hover { transform: translateY(-3px) scale(1.05); }
+  .combo-card:active { transform: scale(0.95); }
+  .combo-card .combo-text { font-size: 1.4rem; font-weight: bold; color: #2c3e50; }
+  .combo-card .combo-text span { color: #e74c3c; }
+
+  .kata-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+  .kata-card { background: white; border-radius: 18px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .kata-card:hover { transform: translateY(-5px); }
+  .kata-card:active { transform: scale(0.95); }
+  .kata-card .emoji { font-size: 3rem; }
+  .kata-card .kata { font-size: 1.5rem; font-weight: bold; color: #2c3e50; margin-top: 8px; }
+  .kata-card .suku { font-size: 1rem; color: #e74c3c; margin-top: 4px; letter-spacing: 2px; }
+
+  #quiz-area { background: rgba(255,255,255,0.95); border-radius: 24px; padding: 30px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+  #quiz-area .emoji { font-size: 5rem; }
+  #quiz-area .question { font-size: 1.3rem; color: #333; margin: 15px 0; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 400px; margin: 0 auto; }
+  .opt-btn { padding: 15px; font-size: 1.3rem; font-family: inherit; font-weight: bold; border: 3px solid #ddd; border-radius: 14px; background: white; cursor: pointer; transition: all 0.3s; }
+  .opt-btn:hover { border-color: #764ba2; background: #f0e6ff; }
+  .opt-btn.correct { background: #2ecc71; color: white; border-color: #27ae60; }
+  .opt-btn.wrong { background: #e74c3c; color: white; border-color: #c0392b; }
+  #quiz-feedback { font-size: 1.5rem; margin-top: 15px; min-height: 40px; }
+  #quiz-score { color: white; text-align: center; font-size: 1.2rem; margin-bottom: 15px; }
+  #next-btn { margin-top: 15px; padding: 12px 30px; font-size: 1.1rem; font-family: inherit; font-weight: bold; border: none; border-radius: 50px; background: #764ba2; color: white; cursor: pointer; display: none; }
+  #next-btn:hover { background: #5a3580; }
+
+  @keyframes pop { 0%{transform:scale(0.5);opacity:0} 100%{transform:scale(1);opacity:1} }
+  .pop { animation: pop 0.3s ease-out; }
+
+  footer { background: rgba(0,0,0,0.2); text-align: center; padding: 20px; margin-top: 40px; color: rgba(255,255,255,0.9); font-size: 0.95rem; }
+  footer a { color: #ffd700; text-decoration: none; font-weight: bold; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 500px) {
+    .grid { grid-template-columns: repeat(4, 1fr); }
+    .suku-grid { grid-template-columns: repeat(3, 1fr); }
+    .kata-grid { grid-template-columns: repeat(2, 1fr); }
+    .options { grid-template-columns: 1fr; }
+    h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="active" onclick="showPage('huruf')">🔤 Huruf</button>
+  <button onclick="showPage('suku')">🗣️ Suku Kata</button>
+  <button onclick="showPage('kata')">📖 Kata</button>
+  <button onclick="showPage('quiz')">🎯 Quiz</button>
+</nav>
+
+<div id="huruf" class="page active">
+  <h1>🔤 Belajar Huruf A - Z</h1>
+  <h2>Tekan huruf untuk mendengar suaranya!</h2>
+  <div class="grid" id="huruf-grid"></div>
+</div>
+
+<div id="suku" class="page">
+  <h1>🗣️ Belajar Suku Kata</h1>
+  <div id="suku-menu">
+    <h2>Pilih huruf untuk belajar suku kata!</h2>
+    <div class="konsonan-grid" id="konsonan-grid"></div>
+  </div>
+  <div id="suku-detail" style="display:none"></div>
+</div>
+
+<div id="kata" class="page">
+  <h1>📖 Belajar Kata</h1>
+  <div id="kata-menu">
+    <h2>Pilih huruf untuk melihat kata-katanya!</h2>
+    <div class="grid" id="kata-huruf-grid"></div>
+  </div>
+  <div id="kata-detail" style="display:none"></div>
+</div>
+
+<div id="quiz" class="page">
+  <h1>🎯 Quiz Membaca</h1>
+  <p id="quiz-score"></p>
+  <div id="quiz-area"></div>
+</div>
+
+<footer>
+  📬 Contact Us: <a href="https://instagram.com/bitarbas_gaming" target="_blank">@bitarbas_gaming</a> di Instagram
+</footer>
+
+<script>
+const HURUF = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const KONSONAN = ['B','C','D','F','G','H','J','K','L','M','N','P','R','S','T','W','Y'];
+const VOKAL = ['a','i','u','e','o'];
+const COLORS = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3498db','#9b59b6','#1abc9c','#e84393'];
+
+const KATA_DATA = [
+  {kata:'AYAM', suku:'A-YAM', emoji:'🐔'},
+  {kata:'AIR', suku:'A-IR', emoji:'💧'},
+  {kata:'API', suku:'A-PI', emoji:'🔥'},
+  {kata:'ANGIN', suku:'A-NGIN', emoji:'💨'},
+  {kata:'AWAN', suku:'A-WAN', emoji:'☁️'},
+  {kata:'BUKU', suku:'BU-KU', emoji:'📚'},
+  {kata:'BOLA', suku:'BO-LA', emoji:'⚽'},
+  {kata:'BABI', suku:'BA-BI', emoji:'🐷'},
+  {kata:'BUNGA', suku:'BU-NGA', emoji:'🌸'},
+  {kata:'BURUNG', suku:'BU-RUNG', emoji:'🐦'},
+  {kata:'CUMI', suku:'CU-MI', emoji:'🦑'},
+  {kata:'CERI', suku:'CE-RI', emoji:'🍒'},
+  {kata:'CAKAR', suku:'CA-KAR', emoji:'🦞'},
+  {kata:'DASI', suku:'DA-SI', emoji:'👔'},
+  {kata:'DUKU', suku:'DU-KU', emoji:'🍇'},
+  {kata:'DURI', suku:'DU-RI', emoji:'🌵'},
+  {kata:'DRUM', suku:'DRUM', emoji:'🥁'},
+  {kata:'ELANG', suku:'E-LANG', emoji:'🦅'},
+  {kata:'ES', suku:'ES', emoji:'🧊'},
+  {kata:'EMBER', suku:'EM-BER', emoji:'🪣'},
+  {kata:'FOTO', suku:'FO-TO', emoji:'📷'},
+  {kata:'FILM', suku:'FILM', emoji:'🎬'},
+  {kata:'GIGI', suku:'GI-GI', emoji:'🦷'},
+  {kata:'GULA', suku:'GU-LA', emoji:'🍬'},
+  {kata:'GAJAH', suku:'GA-JAH', emoji:'🐘'},
+  {kata:'GUNUNG', suku:'GU-NUNG', emoji:'⛰️'},
+  {kata:'HARI', suku:'HA-RI', emoji:'☀️'},
+  {kata:'HUJAN', suku:'HU-JAN', emoji:'🌧️'},
+  {kata:'HATI', suku:'HA-TI', emoji:'❤️'},
+  {kata:'HIDUNG', suku:'HI-DUNG', emoji:'👃'},
+  {kata:'IKAN', suku:'I-KAN', emoji:'🐟'},
+  {kata:'IBU', suku:'I-BU', emoji:'👩'},
+  {kata:'ITIK', suku:'I-TIK', emoji:'🦆'},
+  {kata:'JARI', suku:'JA-RI', emoji:'👆'},
+  {kata:'JAMBU', suku:'JAM-BU', emoji:'🍈'},
+  {kata:'JERUK', suku:'JE-RUK', emoji:'🍊'},
+  {kata:'KUDA', suku:'KU-DA', emoji:'🐴'},
+  {kata:'KAKI', suku:'KA-KI', emoji:'🦶'},
+  {kata:'KUPU', suku:'KU-PU', emoji:'🦋'},
+  {kata:'KUCING', suku:'KU-CING', emoji:'🐱'},
+  {kata:'KELINCI', suku:'KE-LIN-CI', emoji:'🐰'},
+  {kata:'LAUT', suku:'LA-UT', emoji:'🌊'},
+  {kata:'LEBAH', suku:'LE-BAH', emoji:'🐝'},
+  {kata:'LAMPU', suku:'LAM-PU', emoji:'💡'},
+  {kata:'MATA', suku:'MA-TA', emoji:'👁️'},
+  {kata:'MADU', suku:'MA-DU', emoji:'🍯'},
+  {kata:'MOBIL', suku:'MO-BIL', emoji:'🚗'},
+  {kata:'MEJA', suku:'ME-JA', emoji:'🪑'},
+  {kata:'NASI', suku:'NA-SI', emoji:'🍚'},
+  {kata:'NAGA', suku:'NA-GA', emoji:'🐉'},
+  {kata:'NANAS', suku:'NA-NAS', emoji:'🍍'},
+  {kata:'OBAT', suku:'O-BAT', emoji:'💊'},
+  {kata:'ORANG', suku:'O-RANG', emoji:'🧑'},
+  {kata:'PADI', suku:'PA-DI', emoji:'🌾'},
+  {kata:'PAKU', suku:'PA-KU', emoji:'🔩'},
+  {kata:'PANDA', suku:'PAN-DA', emoji:'🐼'},
+  {kata:'PISANG', suku:'PI-SANG', emoji:'🍌'},
+  {kata:'QUEEN', suku:'QU-EEN', emoji:'👸'},
+  {kata:'ROTI', suku:'RO-TI', emoji:'🍞'},
+  {kata:'RAJA', suku:'RA-JA', emoji:'🤴'},
+  {kata:'RUMAH', suku:'RU-MAH', emoji:'🏠'},
+  {kata:'SUSU', suku:'SU-SU', emoji:'🥛'},
+  {kata:'SAPI', suku:'SA-PI', emoji:'🐄'},
+  {kata:'SEMUT', suku:'SE-MUT', emoji:'🐜'},
+  {kata:'SEPATU', suku:'SE-PA-TU', emoji:'👟'},
+  {kata:'TOPI', suku:'TO-PI', emoji:'🎩'},
+  {kata:'TIKUS', suku:'TI-KUS', emoji:'🐭'},
+  {kata:'TANGAN', suku:'TA-NGAN', emoji:'🤚'},
+  {kata:'TELUR', suku:'TE-LUR', emoji:'🥚'},
+  {kata:'ULAR', suku:'U-LAR', emoji:'🐍'},
+  {kata:'UBUR', suku:'U-BUR', emoji:'🪼'},
+  {kata:'VOLI', suku:'VO-LI', emoji:'🏐'},
+  {kata:'VAS', suku:'VAS', emoji:'🏺'},
+  {kata:'WORTEL', suku:'WOR-TEL', emoji:'🥕'},
+  {kata:'WAJAH', suku:'WA-JAH', emoji:'😊'},
+  {kata:'XENON', suku:'XE-NON', emoji:'💡'},
+  {kata:'YOYO', suku:'YO-YO', emoji:'🪀'},
+  {kata:'YOGURT', suku:'YO-GURT', emoji:'🥛'},
+  {kata:'ZEBRA', suku:'ZE-BRA', emoji:'🦓'},
+  {kata:'ZAITUN', suku:'ZA-I-TUN', emoji:'🫒'},
+];
+
+function bicara(teks, rate = 0.8) {
+  const u = new SpeechSynthesisUtterance(teks);
+  u.lang = 'id-ID';
+  u.rate = rate;
+  u.pitch = 1.2;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`nav button[onclick*="${id}"]`).classList.add('active');
+  if (id === 'quiz') startQuiz();
+}
+
+// Render Huruf
+const hurufGrid = document.getElementById('huruf-grid');
+HURUF.forEach((h, i) => {
+  const d = document.createElement('div');
+  d.className = 'card pop';
+  d.style.animationDelay = (i * 30) + 'ms';
+  d.innerHTML = `<div class="big" style="color:${COLORS[i % COLORS.length]}">${h}</div><div class="small">${h.toLowerCase()}</div>`;
+  d.onclick = () => { d.style.transform = 'scale(1.2)'; setTimeout(() => d.style.transform = '', 200); bicara(h); };
+  hurufGrid.appendChild(d);
+});
+
+// Render Suku Kata - Menu Konsonan
+const konsonanGrid = document.getElementById('konsonan-grid');
+KONSONAN.forEach((k, i) => {
+  const d = document.createElement('div');
+  d.className = 'konsonan-card pop';
+  d.style.animationDelay = (i * 30) + 'ms';
+  d.innerHTML = `<div class="big" style="color:${COLORS[i % COLORS.length]}">${k}</div><div class="small">${k.toLowerCase()}a ${k.toLowerCase()}i ${k.toLowerCase()}u</div>`;
+  d.onclick = () => showSukuDetail(k);
+  konsonanGrid.appendChild(d);
+});
+
+function showSukuDetail(k) {
+  const menu = document.getElementById('suku-menu');
+  const detail = document.getElementById('suku-detail');
+  menu.style.display = 'none';
+  detail.style.display = 'block';
+
+  const kl = k.toLowerCase();
+  let html = `<button class="back-btn" onclick="backToSukuMenu()">⬅️ Kembali</button>`;
+  html += `<div class="detail-title">Huruf ${k}</div>`;
+  html += `<div class="detail-sub">Tekan untuk mendengar cara bacanya</div>`;
+
+  // Suku kata dasar: ba, bi, bu, be, bo
+  html += `<div class="suku-section"><h3>Suku Kata Dasar</h3><div class="suku-grid">`;
+  VOKAL.forEach(v => {
+    const suku = kl + v;
+    html += `<div class="suku-card" onclick="this.style.transform='scale(1.15)';setTimeout(()=>this.style.transform='',200);bicara('${suku}',0.7)"><div class="big">${suku}</div></div>`;
+  });
+  html += `</div></div>`;
+
+  // Kombinasi vokal + suku kata: a-ba, i-ba, u-ba, e-ba, o-ba dst
+  html += `<div class="combo-section"><h4>📖 Kombinasi Vokal + Suku Kata</h4>`;
+  VOKAL.forEach(v1 => {
+    const sukuDasar = kl + v1;
+    html += `<div style="margin-bottom:12px"><h4 style="color:white;font-size:1rem;margin-bottom:8px;text-align:center">~ ${sukuDasar} ~</h4><div class="combo-grid">`;
+    VOKAL.forEach(v2 => {
+      const combo = v2 + '-' + sukuDasar;
+      const comboRead = v2 + ' ' + sukuDasar;
+      html += `<div class="combo-card" onclick="this.style.transform='scale(1.1)';setTimeout(()=>this.style.transform='',200);bicara('${comboRead}',0.6)"><div class="combo-text"><span>${v2}</span>-${sukuDasar}</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  html += `</div>`;
+
+  // Kombinasi suku kata + vokal: ba-a, ba-i dst
+  html += `<div class="combo-section"><h4>📖 Kombinasi Suku Kata + Vokal</h4>`;
+  VOKAL.forEach(v1 => {
+    const sukuDasar = kl + v1;
+    html += `<div style="margin-bottom:12px"><h4 style="color:white;font-size:1rem;margin-bottom:8px;text-align:center">~ ${sukuDasar} ~</h4><div class="combo-grid">`;
+    VOKAL.forEach(v2 => {
+      const combo = sukuDasar + '-' + v2;
+      const comboRead = sukuDasar + ' ' + v2;
+      html += `<div class="combo-card" onclick="this.style.transform='scale(1.1)';setTimeout(()=>this.style.transform='',200);bicara('${comboRead}',0.6)"><div class="combo-text">${sukuDasar}-<span>${v2}</span></div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  html += `</div>`;
+
+  // Kombinasi suku kata + suku kata: ba-ba, ba-bi dst
+  html += `<div class="combo-section"><h4>📖 Kombinasi Suku Kata + Suku Kata</h4>`;
+  VOKAL.forEach(v1 => {
+    const suku1 = kl + v1;
+    html += `<div style="margin-bottom:12px"><h4 style="color:white;font-size:1rem;margin-bottom:8px;text-align:center">~ ${suku1} ~</h4><div class="combo-grid">`;
+    VOKAL.forEach(v2 => {
+      const suku2 = kl + v2;
+      const combo = suku1 + '-' + suku2;
+      const comboRead = suku1 + ' ' + suku2;
+      html += `<div class="combo-card" onclick="this.style.transform='scale(1.1)';setTimeout(()=>this.style.transform='',200);bicara('${comboRead}',0.6)"><div class="combo-text">${suku1}-<span>${suku2}</span></div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  html += `</div>`;
+
+  detail.innerHTML = html;
+  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function backToSukuMenu() {
+  document.getElementById('suku-menu').style.display = 'block';
+  document.getElementById('suku-detail').style.display = 'none';
+}
+
+// Render Kata - Menu Huruf
+const kataHurufGrid = document.getElementById('kata-huruf-grid');
+HURUF.forEach((h, i) => {
+  const count = KATA_DATA.filter(w => w.kata[0] === h).length;
+  const d = document.createElement('div');
+  d.className = 'card pop';
+  d.style.animationDelay = (i * 30) + 'ms';
+  d.style.opacity = count ? '1' : '0.4';
+  d.innerHTML = `<div class="big" style="color:${COLORS[i % COLORS.length]}">${h}</div><div class="small">${count} kata</div>`;
+  if (count) d.onclick = () => showKataDetail(h);
+  kataHurufGrid.appendChild(d);
+});
+
+function showKataDetail(h) {
+  const menu = document.getElementById('kata-menu');
+  const detail = document.getElementById('kata-detail');
+  menu.style.display = 'none';
+  detail.style.display = 'block';
+
+  const words = KATA_DATA.filter(w => w.kata[0] === h);
+  let html = `<button class="back-btn" onclick="backToKataMenu()">⬅️ Kembali</button>`;
+  html += `<div class="detail-title">Huruf ${h}</div>`;
+  html += `<div class="detail-sub">Tekan gambar untuk mendengar katanya!</div>`;
+  html += `<div class="kata-grid">`;
+  words.forEach(item => {
+    html += `<div class="kata-card" onclick="bicara('${item.kata}',0.6)"><div class="emoji">${item.emoji}</div><div class="kata">${item.kata}</div><div class="suku">${item.suku}</div></div>`;
+  });
+  html += `</div>`;
+  detail.innerHTML = html;
+  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function backToKataMenu() {
+  document.getElementById('kata-menu').style.display = 'block';
+  document.getElementById('kata-detail').style.display = 'none';
+}
+
+// Quiz
+let score = 0, total = 0, quizPool = [];
+
+function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+function startQuiz() {
+  score = 0; total = 0;
+  quizPool = shuffle([...KATA_DATA]);
+  showQuestion();
+}
+
+function showQuestion() {
+  if (!quizPool.length) quizPool = shuffle([...KATA_DATA]);
+  const q = quizPool.pop();
+  total++;
+  document.getElementById('quiz-score').textContent = `Skor: ${score} / ${total - 1}`;
+
+  let opts = [q.kata];
+  while (opts.length < 4) {
+    const r = KATA_DATA[Math.floor(Math.random() * KATA_DATA.length)].kata;
+    if (!opts.includes(r)) opts.push(r);
+  }
+  opts = shuffle(opts);
+
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="emoji">${q.emoji}</div>
+    <div class="question">Apa tulisan yang benar untuk gambar di atas?</div>
+    <div class="options">${opts.map(o => `<button class="opt-btn" onclick="checkAnswer(this,'${o}','${q.kata}')">${o}</button>`).join('')}</div>
+    <div id="quiz-feedback"></div>
+    <button id="next-btn" onclick="showQuestion()">Lanjut ➡️</button>
+  `;
+  bicara('Apa ini?', 0.8);
+}
+
+function checkAnswer(btn, selected, correct) {
+  document.querySelectorAll('.opt-btn').forEach(b => { b.disabled = true; if (b.textContent === correct) b.classList.add('correct'); });
+  const fb = document.getElementById('quiz-feedback');
+  if (selected === correct) {
+    score++;
+    fb.textContent = '🎉 Benar! Hebat!';
+    fb.style.color = '#2ecc71';
+    bicara('Benar! Hebat!');
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = `😢 Belum tepat. Jawabannya: ${correct}`;
+    fb.style.color = '#e74c3c';
+    bicara(`Belum tepat. Jawabannya ${correct}`, 0.7);
+  }
+  document.getElementById('quiz-score').textContent = `Skor: ${score} / ${total}`;
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+</script>
+</body>
+</html>
