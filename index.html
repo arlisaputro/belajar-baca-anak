@@ -228,8 +228,12 @@ const KATA_DATA = [
   {kata:'ZAITUN', suku:'ZA-I-TUN', emoji:'🫒'},
 ];
 
+function bicaraFix(teks) {
+  return teks.replace(/be/gi, 'bé').replace(/ce/gi, 'cé').replace(/de/gi, 'dé').replace(/fe/gi, 'fé').replace(/ge/gi, 'gé').replace(/he/gi, 'hé').replace(/je/gi, 'jé').replace(/ke/gi, 'ké').replace(/le/gi, 'lé').replace(/me/gi, 'mé').replace(/ne/gi, 'né').replace(/pe/gi, 'pé').replace(/re/gi, 'ré').replace(/se/gi, 'sé').replace(/te/gi, 'té').replace(/we/gi, 'wé').replace(/ye/gi, 'yé');
+}
+
 function bicara(teks, rate = 0.8) {
-  const u = new SpeechSynthesisUtterance(teks);
+  const u = new SpeechSynthesisUtterance(bicaraFix(teks));
   u.lang = 'id-ID';
   u.rate = rate;
   u.pitch = 1.2;
